@@ -12,12 +12,12 @@ class Botao():
         self.clique_botao_esquerdo = False
 
     def botao_na_tela(self, interface):
+        # imprimir o botao
+        interface.blit(self.imagem, (self.rect.x, self.rect.y))
+
         # interacao com o mouse
         acao = False
         posicao_mouse = pygame.mouse.get_pos()
-
-        # imprimir o botao
-        interface.blit(self.imagem, (self.rect.x, self.rect.y))
 
         if self.rect.collidepoint(posicao_mouse):
             interface.blit(self.imagemPress, (self.rect.x, self.rect.y))
@@ -25,6 +25,5 @@ class Botao():
                 self.clique_botao_esquerdo = True
                 acao = True
             if pygame.mouse.get_pressed()[0] == 0:
-                self.clique_botao = False
-
+                self.clique_botao_esquerdo = False
         return acao
