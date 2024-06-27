@@ -73,7 +73,8 @@ icone = pygame.image.load('images/icon.png')
 pygame.display.set_icon(icone)
 
 fundo_jogo = pygame.image.load('images/tela_jogo.png')
-
+iconPlayer = pygame.image.load('images/imagem_heroi.png')
+iconBot = pygame.image.load('images/imagem_vilao.png')
 # contantes de interface e geral
 altura_tela = 480
 largura_tela = 720
@@ -81,6 +82,19 @@ largura_tela = 720
 tela_jogo = pygame.display.set_mode((largura_tela, altura_tela))
 pygame.display.set_caption('Vinte One')
 fps = pygame.time.Clock()
+
+baralho = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+cartas_1 = [paus_1, copas_1, ouro_1, espada_1]
+cartas_2 = [paus_2, copas_2, ouro_2, espada_2]
+cartas_3 = [paus_3, copas_3, ouro_3, espada_3]
+cartas_4 = [paus_4, copas_4, ouro_4, espada_4]
+cartas_5 = [paus_5, copas_5, ouro_5, espada_5]
+cartas_6 = [paus_6, copas_6, ouro_6, espada_6]
+cartas_7 = [paus_7, copas_7, ouro_7, espada_7]
+cartas_8 = [paus_8, copas_8, ouro_8, espada_8]
+cartas_9 = [paus_9, copas_9, ouro_9, espada_9]
+cartas_10 = [paus_10, copas_10, ouro_10, espada_10, paus_j, copas_j, ouro_j, espada_j, paus_q, copas_q, ouro_q, espada_q, paus_k, copas_k, ouro_k, espada_k]
 
 # musicas
 def musicaClassica():
@@ -100,3 +114,16 @@ def redimensionarImagem(imagem, escala):
     largura = imagem.get_width()
     imagem = pygame.transform.scale(imagem, (int(largura*escala), int(altura*escala)))
     return imagem
+
+'''
+if flag_mostrarCarta:
+    tela_jogo.blit(redimensionarImagem(paus_3, 0.2), (xCartaAnimada, yCartaAnimada))
+    if flag:
+        xCartaAnimada -= 80
+        yCartaAnimada += 20
+    if xCartaAnimada <= v:
+        flag = False
+        flag_mostrarCarta = False
+        xCartaAnimada = 600
+        yCartaAnimada = 150
+'''
