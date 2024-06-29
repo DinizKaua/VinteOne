@@ -16,7 +16,6 @@ botao_packBaralho = Botao(580, 150, pack, packPress, 0.2)
 # telas
 pygame.display.set_icon(icone)
 def menuPrincipal():
-    musicaDoidona()
     while True:
         for evento in pygame.event.get():
             if evento.type == QUIT:
@@ -47,19 +46,23 @@ def Jogo():
     somaCartasJogador = 0
     cartasDoBot = []
 
-    suaVez = True
+    somaCartasJogador = 0
     cartaAtual = 0
 
-    # xCartaAnimada = 600
-    # yCartaAnimada = 150
+    xCartaAnimada = 600
+    yCartaAnimada = 150
+    posicaoRelativaAnimacao = 50
 
     lista_posicaoRelativaCartas = []
     posicaoRelativaCartas = 10
     cartasExibidas = []
-    flag_exibirCartas = False
 
+    # flags base
+    flag_exibirCartas = False
     flag_animacaoCarta = False
-    musicaClassica()
+    suaVez = True
+    musica_MenuPrincipal.play(-1)
+    musica_MenuPrincipal.set_volume(0.15)
     while True:
         for evento in pygame.event.get():
             if evento.type == QUIT:
@@ -67,58 +70,70 @@ def Jogo():
                 exit()
 
         tela_jogo.blit(fundo_jogo, (0, 0))
-        tela_jogo.blit(redimensionarImagem(iconPlayer, 0.12), (570, 330))
-        tela_jogo.blit(redimensionarImagem(iconBot, 0.12), (25, 25))
+        tela_jogo.blit(redimensionarImagem(iconPlayer, 0.06), (580, 350))
+        tela_jogo.blit(redimensionarImagem(iconBot, 0.06), (25, 25))
         fps.tick(30)
 
         # volta para o menu pelo botao esc
         if pygame.key.get_pressed()[K_ESCAPE]:
+            musica_MenuPrincipal.stop()
             menuPrincipal()
+
 
         # verifica se o usuario puxou uma carta
         if botao_packBaralho.botao_na_tela(tela_jogo) and suaVez:
+            # som de puxar a carta
+            somPuxarCarta = random.choice([som1, som2, som3, som4, som5])
+            somPuxarCarta.play()
+
             # aleatoriza um valor aleatório do vetor baralho
             cartaAtual = random.choice(baralho)
+
             #adiciona a mão do jogador a carta aleatorizada
             cartasDoJogador.append(cartaAtual)
             somaCartasJogador = sum(cartasDoJogador)
             print(somaCartasJogador)
+
+            # convertendo o valor na imagem da carta
+            cartaNova = selecionaNipe(cartaAtual)
+
+            #ativando a animação de puxar carta
             flag_animacaoCarta = True
 
 
-            # dependendo da carta, adiciona a lista de cartas que serão exibidas na tela
-            if cartaAtual == 1:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_1)), 0.2))
-            elif cartaAtual == 2:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_2)), 0.2))
-            elif cartaAtual == 3:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_3)), 0.2))
-            elif cartaAtual == 4:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_4)), 0.2))
-            elif cartaAtual == 5:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_5)), 0.2))
-            elif cartaAtual == 6:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_6)), 0.2))
-            elif cartaAtual == 7:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_7)), 0.2))
-            elif cartaAtual == 8:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_8)), 0.2))
-            elif cartaAtual == 9:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_9)), 0.2))
-            elif cartaAtual == 10:
-                cartasExibidas.append(redimensionarImagem((random.choice(cartas_10)), 0.2))
+        # animação da carta puxando
+        if flag_animacaoCarta:
+            tela_jogo.blit(cartaNova, (xCartaAnimada, yCartaAnimada))
+            xCartaAnimada -= 100
+            yCartaAnimada += 30
+            if xCartaAnimada <= posicaoRelativaAnimacao:
+                # adiciona a nova carta ao deck exibido e a posicao relativa
+                cartasExibidas.append(cartaNova)
+                lista_posicaoRelativaCartas.append(posicaoRelativaCartas)
+                posicaoRelativaCartas += 50
 
-            # adiciona juntamente a posicao relativa da carta
-            lista_posicaoRelativaCartas.append(posicaoRelativaCartas)
-            posicaoRelativaCartas += 50
-            flag_exibirCartas = True
+                # reseta e atualiza as configurações da animação
+                xCartaAnimada = 600
+                yCartaAnimada = 150
+                posicaoRelativaAnimacao += 50
 
+                flag_exibirCartas = True
+                flag_animacaoCarta = False
 
         # exibir a carta na tela
         if flag_exibirCartas:
             for i, c, in enumerate(cartasExibidas):
                 tela_jogo.blit(c, (lista_posicaoRelativaCartas[i], 306))
 
+        # textos
+        if somaCartasJogador == 21:
+            point_playerFormatado = fonte.render(str(somaCartasJogador), True, (218, 165, 32))
+        elif somaCartasJogador > 21:
+            point_playerFormatado = fonte.render(str(somaCartasJogador), True, (255, 000, 000))
+        else:
+            point_playerFormatado = fonte.render(str(somaCartasJogador), True, (255, 255, 255))
+
+        tela_jogo.blit(point_playerFormatado, (10, altura_tela//2))
 
         pygame.display.flip()
 

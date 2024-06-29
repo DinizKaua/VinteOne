@@ -1,4 +1,7 @@
 import pygame
+import random
+
+pygame.init()
 # imagem das cartas
 pack = pygame.image.load('images/cards/pack.png')
 packPress = pygame.image.load('images/cards/pack_click.png')
@@ -75,6 +78,18 @@ pygame.display.set_icon(icone)
 fundo_jogo = pygame.image.load('images/tela_jogo.png')
 iconPlayer = pygame.image.load('images/imagem_heroi.png')
 iconBot = pygame.image.load('images/imagem_vilao.png')
+
+# musicas e efeitos sonoros
+musica_MenuPrincipal = pygame.mixer.Sound('sounds/music_classic.mp3')
+som1 = pygame.mixer.Sound('sounds/soundEffect/cardSlide1.wav')
+som2 = pygame.mixer.Sound('sounds/soundEffect/cardSlide2.wav')
+som3 = pygame.mixer.Sound('sounds/soundEffect/cardSlide3.wav')
+som4 = pygame.mixer.Sound('sounds/soundEffect/cardSlide4.wav')
+som5 = pygame.mixer.Sound('sounds/soundEffect/cardSlide5.wav')
+
+# fonte
+fonte = pygame.font.Font('EraserRegular.ttf', 40)
+
 # contantes de interface e geral
 altura_tela = 480
 largura_tela = 720
@@ -96,18 +111,6 @@ cartas_8 = [paus_8, copas_8, ouro_8, espada_8]
 cartas_9 = [paus_9, copas_9, ouro_9, espada_9]
 cartas_10 = [paus_10, copas_10, ouro_10, espada_10, paus_j, copas_j, ouro_j, espada_j, paus_q, copas_q, ouro_q, espada_q, paus_k, copas_k, ouro_k, espada_k]
 
-# musicas
-def musicaClassica():
-    pygame.mixer.music.load('sounds/music_classic.mp3')
-    pygame.mixer.music.set_volume(0.2)
-    pygame.mixer.music.play(-1)
-
-
-def musicaDoidona():
-    pygame.mixer.music.load('sounds/musica_doidona.mp3')
-    pygame.mixer.music.set_volume(0.2)
-    pygame.mixer.music.play(-1)
-
 # funções
 def redimensionarImagem(imagem, escala):
     altura = imagem.get_height()
@@ -115,15 +118,25 @@ def redimensionarImagem(imagem, escala):
     imagem = pygame.transform.scale(imagem, (int(largura*escala), int(altura*escala)))
     return imagem
 
-'''
-if flag_mostrarCarta:
-    tela_jogo.blit(redimensionarImagem(paus_3, 0.2), (xCartaAnimada, yCartaAnimada))
-    if flag:
-        xCartaAnimada -= 80
-        yCartaAnimada += 20
-    if xCartaAnimada <= v:
-        flag = False
-        flag_mostrarCarta = False
-        xCartaAnimada = 600
-        yCartaAnimada = 150
-'''
+# dependendo do valor ela retorna uma carta com o nipe aleatorio daquele valor
+def selecionaNipe(cartaAtual):
+    if cartaAtual == 1:
+        return redimensionarImagem((random.choice(cartas_1)), 0.2)
+    elif cartaAtual == 2:
+        return redimensionarImagem((random.choice(cartas_2)), 0.2)
+    elif cartaAtual == 3:
+        return redimensionarImagem((random.choice(cartas_3)), 0.2)
+    elif cartaAtual == 4:
+        return redimensionarImagem((random.choice(cartas_4)), 0.2)
+    elif cartaAtual == 5:
+        return redimensionarImagem((random.choice(cartas_5)), 0.2)
+    elif cartaAtual == 6:
+        return redimensionarImagem((random.choice(cartas_6)), 0.2)
+    elif cartaAtual == 7:
+        return redimensionarImagem((random.choice(cartas_7)), 0.2)
+    elif cartaAtual == 8:
+        return redimensionarImagem((random.choice(cartas_8)), 0.2)
+    elif cartaAtual == 9:
+        return redimensionarImagem((random.choice(cartas_9)), 0.2)
+    elif cartaAtual == 10:
+        return redimensionarImagem((random.choice(cartas_10)), 0.2)
