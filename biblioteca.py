@@ -3,6 +3,7 @@ import random
 
 pygame.init()
 # imagem das cartas
+verso_daCarta = pygame.image.load('images/cards/backface_card.png')
 pack = pygame.image.load('images/cards/pack.png')
 packPress = pygame.image.load('images/cards/pack_click.png')
 
@@ -69,26 +70,37 @@ opcoes = pygame.image.load('images/opcoes.png')
 opcoesPress = pygame.image.load('images/opcoesPress.png')
 sair = pygame.image.load('images/sair.png')
 sairPress = pygame.image.load('images/sairPress.png')
+comeca = pygame.image.load('images/comecar.png')
+comecaPress = pygame.image.load('images/comecarPress.png')
+parar = pygame.image.load('images/parar.png')
+pararPress = pygame.image.load('images/pararPress.png')
+jogarNovamente = pygame.image.load('images/jogarNovamente.png')
+jogarNovamentePress = pygame.image.load('images/jogarNovamentePress.png')
 
 #imagem gerais
 fundo_menu = pygame.image.load('images/menu.png')
 icone = pygame.image.load('images/icon.png')
 pygame.display.set_icon(icone)
+barrio = pygame.image.load('images/barrio.png')
+hellokitty = pygame.image.load('images/hellokitty.png')
 
 fundo_jogo = pygame.image.load('images/tela_jogo.png')
 iconPlayer = pygame.image.load('images/imagem_heroi.png')
 iconBot = pygame.image.load('images/imagem_vilao.png')
 
 # musicas e efeitos sonoros
-musica_MenuPrincipal = pygame.mixer.Sound('sounds/music_classic.mp3')
+
+musica_Jogo = pygame.mixer.Sound('sounds/music_classic.mp3')
+musica_Menu = pygame.mixer.Sound('sounds/old_citytheme.ogg')
 som1 = pygame.mixer.Sound('sounds/soundEffect/cardSlide1.wav')
 som2 = pygame.mixer.Sound('sounds/soundEffect/cardSlide2.wav')
 som3 = pygame.mixer.Sound('sounds/soundEffect/cardSlide3.wav')
 som4 = pygame.mixer.Sound('sounds/soundEffect/cardSlide4.wav')
 som5 = pygame.mixer.Sound('sounds/soundEffect/cardSlide5.wav')
+som6 = pygame.mixer.Sound('sounds/soundEffect/cardTakeOutPackage1.wav')
 
 # fonte
-fonte = pygame.font.Font('EraserRegular.ttf', 40)
+fonte = pygame.font.Font('chawp.ttf', 40)
 
 # contantes de interface e geral
 altura_tela = 480
@@ -140,3 +152,28 @@ def selecionaNipe(cartaAtual):
         return redimensionarImagem((random.choice(cartas_9)), 0.2)
     elif cartaAtual == 10:
         return redimensionarImagem((random.choice(cartas_10)), 0.2)
+
+
+def probabilidado_botPuxarCarta(somaDasCartas):
+    if somaDasCartas <= 11:
+        return True
+    else:
+        probabilidade = random.randint(0, 100)
+        if somaDasCartas <= 15:
+            return probabilidade <= 60
+        elif somaDasCartas <= 18:
+            return probabilidade <= 40
+        elif somaDasCartas < 21:
+            return probabilidade <= 15
+        elif somaDasCartas >= 21:
+            return False
+
+def verificaVencedor(point_Player, point_Bot):
+    if point_Player == point_Bot:
+        return ' HOUVE UM EMPATE!'
+    elif point_Player > point_Bot and point_Player <= 21:
+        return 'VOCÊ VENCEU!'
+    elif point_Player < point_Bot and point_Bot > 21:
+        return 'VOCÊ VENCEU!'
+    else:
+        return 'VOCÊ PERDEU...(melhore)'
