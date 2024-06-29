@@ -15,12 +15,11 @@ botao_packBaralho = Botao(580, 150, pack, packPress, 0.2)
 botao_comeca = Botao(230, 20, comeca, comecaPress, 0.08)
 botao_parar = Botao(560, 300, parar, pararPress, 0.05)
 botao_jogarNovamente  = Botao(60, 210, jogarNovamente, jogarNovamentePress, 0.08)
-jogandoNovamente = False # essa flag aqui é gambiarra pra musica não parar quando eu apertar pra jogar novamente
 
 # telas
 pygame.display.set_icon(icone)
+musica_Menu.play(-1)
 def menuPrincipal():
-    musica_Menu.play(-1)
     while True:
         for evento in pygame.event.get():
             if evento.type == QUIT:
@@ -93,10 +92,9 @@ def Jogo():
     inicioDojogo = True
     vezDoBot = False
     suaVez = False
-    global jogandoNovamente
-    if not jogandoNovamente:
-        musica_Jogo.play(-1)
-        musica_Jogo.set_volume(0.15)
+
+    musica_Jogo.play(-1)
+    musica_Jogo.set_volume(0.15)
     while True:
         for evento in pygame.event.get():
             if evento.type == QUIT:
@@ -112,6 +110,7 @@ def Jogo():
         # volta para o menu pelo botao esc
         if pygame.key.get_pressed()[K_ESCAPE]:
             musica_Jogo.stop()
+            musica_Menu.play()
             menuPrincipal()
 
 
