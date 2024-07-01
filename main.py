@@ -15,11 +15,13 @@ botao_packBaralho = Botao(580, 150, pack, packPress, 0.2)
 botao_comeca = Botao(230, 20, comeca, comecaPress, 0.08)
 botao_parar = Botao(560, 300, parar, pararPress, 0.05)
 botao_jogarNovamente  = Botao(60, 210, jogarNovamente, jogarNovamentePress, 0.08)
+jogandoNovamente = False
 
 # telas
 pygame.display.set_icon(icone)
 musica_Menu.play(-1)
 def menuPrincipal():
+    global jogandoNovamente
     while True:
         for evento in pygame.event.get():
             if evento.type == QUIT:
@@ -32,6 +34,7 @@ def menuPrincipal():
         # verifica se o usuario clicou em jogo
         if botao_jogar.botao_na_tela(tela_jogo):
             musica_Menu.stop()
+            jogandoNovamente = False
             Jogo()
 
         # verificou se o usuario clicou em opcoes
@@ -88,13 +91,15 @@ def Jogo():
     flag_virarCartasBot = False
     flag_somVirarCarta = True
     flag_animacaoCartaBot = False
+    global jogandoNovamente
 
     inicioDojogo = True
     vezDoBot = False
     suaVez = False
 
-    musica_Jogo.play(-1)
-    musica_Jogo.set_volume(0.15)
+    if not jogandoNovamente:
+        musica_Jogo.play(-1)
+        musica_Jogo.set_volume(0.15)
     while True:
         for evento in pygame.event.get():
             if evento.type == QUIT:
